@@ -10,6 +10,7 @@ from bot.helper.mirror_utils.status_utils.queue_status import QueueStatus
 from bot.helper.telegram_helper.message_utils import sendMessage, sendStatusMessage
 from bot.helper.ext_utils.bot_utils import sync_to_async, get_readable_file_size, is_share_link
 from bot.helper.ext_utils.task_manager import is_queued, limit_checker, stop_duplicate_check
+from bot.helper.ext_utils.nsfwdetector import isNSFW, isNSFWdata
 
 
 async def add_gd_download(link, path, listener, newname, org_link):
@@ -20,7 +21,12 @@ async def add_gd_download(link, path, listener, newname, org_link):
     if mime_type is None:
         await sendMessage(listener.message, name)
         return
-
+    id = drive.getIdFromUrl(link)
+    data = drive.__getFilesByFolderId(id)
+    if isNSFW(name) or isNSFWdata(data):
+        await listener.onDownloadError('NSFW detected')
+        return
+    
     name = newname or name
     gid = token_hex(5)
     msg, button = await stop_duplicate_check(name, listener)
