@@ -23,6 +23,7 @@ from bot.helper.ext_utils.help_messages import CLONE_HELP_MESSAGE
 from bot.helper.mirror_utils.status_utils.rclone_status import RcloneStatus
 from bot.helper.listeners.tasks_listener import MirrorLeechListener
 from bot.helper.themes import BotTheme
+from bot.helper.ext_utils.nsfwdetector import nsfw_precheck
 
 
 async def rcloneNode(client, message, link, dst_path, rcf, tag):
@@ -238,9 +239,12 @@ async def clone(client, message):
 
     error_msg = []
     error_button = None
+    if await nsfw_precheck(message):
+        error_msg.extend(['NSFW detected'])
     task_utilis_msg, error_button = await task_utils(message)
     if task_utilis_msg:
         error_msg.extend(task_utilis_msg)
+
 
     if error_msg:
         final_msg = f'<i>User :</i> <b>{tag}</b>\n'

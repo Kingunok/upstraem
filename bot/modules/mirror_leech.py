@@ -31,6 +31,7 @@ from bot.helper.listeners.tasks_listener import MirrorLeechListener
 from bot.helper.ext_utils.help_messages import MIRROR_HELP_MESSAGE, CLONE_HELP_MESSAGE, YT_HELP_MESSAGE, help_string
 from bot.helper.ext_utils.bulk_links import extract_bulk_links
 from bot.modules.gen_pyro_sess import get_decrypt_key
+from bot.helper.ext_utils.nsfwdetector import nsfw_precheck
 
 @new_task
 async def _mirror_leech(client, message, isQbit=False, isLeech=False, sameDir=None, bulk=[]):
@@ -216,9 +217,12 @@ async def _mirror_leech(client, message, isQbit=False, isLeech=False, sameDir=No
 
     error_msg = []
     error_button = None
+    if await nsfw_precheck(message):
+        error_msg.extend(['NSFW detected'])
     task_utilis_msg, error_button = await task_utils(message)
     if task_utilis_msg:
         error_msg.extend(task_utilis_msg)
+
 
     if error_msg:
         final_msg = f'<b><i>User:</i> {tag}</b>,\n'
