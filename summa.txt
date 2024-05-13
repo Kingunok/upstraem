@@ -44,3 +44,4 @@ xattr
 yt-dlp
 html_telegraph_poster
 waybackpy
+gtts
