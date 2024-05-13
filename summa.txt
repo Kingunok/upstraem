@@ -1,17 +1,14 @@
 aiohttp
 aiofiles
 aioshutil
-anytree
+anytree==2.8.0
 apscheduler
 aria2p
 asyncio
 beautifulsoup4
-bs4
 cinemagoer
 cloudscraper
-cfscrape
 cryptography
-curl_cffi
 dnspython
 feedparser
 flask
@@ -32,9 +29,8 @@ pillow
 psutil
 pybase64
 pycountry
-pyshorteners
 pymongo
-pyrogram
+pyrogram==2.0.106
 python-dotenv
 python-magic
 qbittorrent-api
@@ -44,6 +40,6 @@ telegraph
 tenacity
 tgcrypto
 uvloop
-urllib3
 xattr
 yt-dlp
+html_telegraph_poster
